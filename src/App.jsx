@@ -20,8 +20,8 @@ const queryClient = new QueryClient();
 // ProtectedRoute component (JSX version)
 const ProtectedRoute = ({ children }) => {
   if (!authService.isAuthenticated()) {
-    return <Navigate to="/login" />;
-    // return <>{children}</>;
+    // return <Navigate to="/login" />;
+    return <>{children}</>;
   }
   return <>{children}</>;
 };
