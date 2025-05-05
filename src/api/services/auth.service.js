@@ -1,5 +1,5 @@
 import { authRepository } from '../repositories/auth.repository.js';
-import { toast } from 'sonner';
+import { toast } from '../../components/ui/sonner.jsx';
 
 export const authService = {
   /**
