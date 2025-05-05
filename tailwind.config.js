@@ -71,7 +71,8 @@ const config = {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
-      },
+        DEFAULT: "var(--radius)", // Optional default value
+      },      
       keyframes: {
         "accordion-down": {
           from: { height: "0" },

@@ -11,19 +11,19 @@ A modern HR management dashboard with features for tracking employees, attendanc
 - Dark Purple: `#6035cc`
 - Light Purple: `#e5deff`
 
-### Attendo Brand Colors
+### Insta Attend Brand Colors
 ```css
---attendo-50: #f3f1fe
---attendo-100: #e9e4fe
---attendo-200: #d8cffe
---attendo-300: #bbadfb
---attendo-400: #9b87f5
---attendo-500: #8262ef
---attendo-600: #7246e1
---attendo-700: #6035cc
---attendo-800: #502ea7
---attendo-900: #422886
---attendo-950: #281855
+--instattend-50: #f3f1fe
+--instattend-100: #e9e4fe
+--instattend-200: #d8cffe
+--instattend-300: #bbadfb
+--instattend-400: #9b87f5
+--instattend-500: #8262ef
+--instattend-600: #7246e1
+--instattend-700: #6035cc
+--instattend-800: #502ea7
+--instattend-900: #422886
+--instattend-950: #281855
 ```
 
 ### UI Colors
@@ -81,7 +81,7 @@ The application uses the default Tailwind CSS font stack:
 
 ## API Documentation
 
-This section outlines the required APIs for the Attendo HR Management Dashboard. Backend developers should implement these endpoints to ensure the frontend functions correctly.
+This section outlines the required APIs for the Insta Attend HR Management Dashboard. Backend developers should implement these endpoints to ensure the frontend functions correctly.
 
 ### Base URL
 The API base URL should be configurable through the environment variable `VITE_API_URL`. Default: `http://localhost:3000/api`
@@ -136,3 +136,8 @@ The API base URL should be configurable through the environment variable `VITE_A
 | `/payroll/:id` | GET | Get payroll by ID | - | Payroll details |
 | `/payroll/employee/:id` | GET | Get payrolls by employee | Query params: `year` | Payroll records for employee |
 | `/payroll/:id/download` | GET | Download payslip | - | PDF file |
+
+
+##ID PASSWORD FOR ADMIN PANEL
+### EMAIL: admin@insta-attend.com
+### PASSWORD: password123
