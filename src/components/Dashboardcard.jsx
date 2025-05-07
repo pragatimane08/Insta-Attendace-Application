@@ -1,7 +1,8 @@
 import React from 'react';
 import PageTile from './PageTile';
-import { StatCard } from './StatCard'; // must match named export
+import { StatCard } from './StatCard';
 import { FaUser, FaClock, FaCalendarAlt } from "react-icons/fa";
+import { Toaster } from "./ui/Toaster";
 
 const stats = [
   {
@@ -34,16 +35,19 @@ const stats = [
   },
 ];
 
-const Dashboardcard = () => {
+//  Destructure children from props
+const Dashboardcard = ({ children }) => {
   const tile = {
     name: "Dashboard",
     description: "Welcome back, Akshay",
   };
-
+  // toast.success("Test toast");
   return (
     <div className="p-6">
       <PageTile tile={tile} />
       <StatCard data={stats} />
+      {children} {/* Now children is defined */}
+      <Toaster/>
     </div>
   );
 };
