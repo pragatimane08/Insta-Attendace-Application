@@ -1,27 +1,93 @@
 import React, { useState } from "react";
 import MainLayout from "../components/layout/MainLayout";
-import { FaTrash, FaSearch, FaUserAlt, FaEdit } from "react-icons/fa";
-import { FiFilter } from "react-icons/fi";
-import { HiOutlineDocumentDownload } from "react-icons/hi";
+import AddEmployeeForm from "../components/ui/AddEmployeeForm";
+import UpdateEmployeeForm from "../components/ui/UpdateEmployeeForm";
+import { Search, UserPlus, Edit, Trash, Filter, FileText } from "lucide-react";
 
+// Sample employee data
 const employeesData = [
-  { name: "Mustkeem Baraskar", email: "mustkeem@gmail.com", phone: "1234567890", designation: "Software Developer", department: "Corporate Office" },
-  { name: "Rohini Raut", email: "rohini@gmail.com", phone: "1234567890", designation: "Software Developer", department: "JIO" },
-  { name: "Pragati Mane", email: "pragati@gmail.com", phone: "1234567890", designation: "Software Developer", department: "Corporate Office" },
-  { name: "Shivanjali Bhosagi", email: "shivanjali@gmail.com", phone: "1234567890", designation: "Software Developer", department: "Corporate Office" },
-  { name: "Dilip Nandiwale", email: "dilip@gmail.com", phone: "1234567890", designation: "Software Developer", department: "VI Pune" },
-  { name: "Devayani Ghuge", email: "devayani@gmail.com", phone: "1234567890", designation: "Software Developer", department: "Maharashtra JIO" },
-  { name: "Niharika Sangolkar", email: "niharika@gmail.com", phone: "1234567890", designation: "Software Developer", department: "Punjab Circle" },
-  { name: "Sakshi Rajurkar", email: "sakshi@gmail.com", phone: "1234567890", designation: "Software Developer", department: "Airtel Bharti" },
-  { name: "Vaibhav Alone", email: "vaibhav@gmail.com", phone: "1234567890", designation: "Software Developer", department: "Ericsson JIO" },
-  { name: "Kajal Pawar", email: "kajal@gmail.com", phone: "1234567890", designation: "Software Developer", department: "Mumbai Airtel" },
+  {
+    name: "Mustkeem Baraskar",
+    email: "mustkeem@gmail.com",
+    phone: "1234567890",
+    designation: "Software Developer",
+    department: "Corporate Office",
+  },
+  {
+    name: "Rohini Raut",
+    email: "rohini@gmail.com",
+    phone: "1234567890",
+    designation: "Software Developer",
+    department: "JIO",
+  },
+  {
+    name: "Pragati Mane",
+    email: "pragati@gmail.com",
+    phone: "1234567890",
+    designation: "Software Developer",
+    department: "Corporate Office",
+  },
+  {
+    name: "Shivanjali Bhosagi",
+    email: "shivanjali@gmail.com",
+    phone: "1234567890",
+    designation: "Software Developer",
+    department: "Corporate Office",
+  },
+  {
+    name: "Dilip Nandiwale",
+    email: "dilip@gmail.com",
+    phone: "1234567890",
+    designation: "Software Developer",
+    department: "VI Pune",
+  },
+  {
+    name: "Devayani Ghuge",
+    email: "devayani@gmail.com",
+    phone: "1234567890",
+    designation: "Software Developer",
+    department: "Maharashtra JIO",
+  },
+  {
+    name: "Niharika Sangolkar",
+    email: "niharika@gmail.com",
+    phone: "1234567890",
+    designation: "Software Developer",
+    department: "Punjab Circle",
+  },
+  {
+    name: "Sakshi Rajurkar",
+    email: "sakshi@gmail.com",
+    phone: "1234567890",
+    designation: "Software Developer",
+    department: "Airtel Bharti",
+  },
+  {
+    name: "Vaibhav Alone",
+    email: "vaibhav@gmail.com",
+    phone: "1234567890",
+    designation: "Software Developer",
+    department: "Ericsson JIO",
+  },
+  {
+    name: "Kajal Pawar",
+    email: "kajal@gmail.com",
+    phone: "1234567890",
+    designation: "Software Developer",
+    department: "Mumbai Airtel",
+  },
 ];
 
 const Employees = () => {
+  const [searchTerm, setSearchTerm] = useState("");
   const [employees, setEmployees] = useState(employeesData);
   const [showConfirm, setShowConfirm] = useState(false);
   const [selectedEmp, setSelectedEmp] = useState(null);
 
+  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+
+  // Delete logic
   const handleDelete = (emp) => {
     setSelectedEmp(emp);
     setShowConfirm(true);
@@ -33,39 +99,58 @@ const Employees = () => {
     setSelectedEmp(null);
   };
 
+  // Show Add form
+  const onAddEmployeeClick = () => {
+    setIsAddDialogOpen(true);
+  };
+
+  // Show Edit form with selected employee
+  const onEditEmployeeClick = (emp) => {
+    setSelectedEmp(emp);
+    setIsEditDialogOpen(true);
+  };
+
   return (
     <MainLayout>
       <div className="min-h-screen bg-gray-50 p-6">
+        {/* Header */}
         <div className="flex justify-between items-center mb-4">
           <h1 className="text-2xl font-bold">Employee Management</h1>
-          <button className="bg-purple-600 text-white px-4 flex py-2 rounded gap-3 shadow hover:bg-purple-700">
-            <FaUserAlt className="w-4 h-4" />
-            Add New Employee
+          <button
+            onClick={onAddEmployeeClick}
+            className="flex items-center gap-2 bg-purple-600 text-white px-4 py-2 rounded shadow hover:bg-purple-700"
+          >
+            <UserPlus className="h-4 w-4" />
+            <span>Add New Employee</span>
           </button>
         </div>
 
+        {/* Search and Filter */}
         <div className="flex items-center justify-between gap-4 p-4">
           <div className="relative w-96">
-            <FaSearch className="absolute left-3 top-2.5 w-3.5 h-3.5 text-gray-400" />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
             <input
               type="text"
               placeholder="Search employees..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
               className="w-80 pl-10 pr-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500"
             />
           </div>
 
           <div className="flex gap-2">
             <button className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-100">
-              <FiFilter className="w-5 h-5" />
+            <Filter className="h-4 w-4 mr-2" />
               Filter
             </button>
             <button className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-100">
-              <HiOutlineDocumentDownload className="w-5 h-5" />
+            <FileText className="h-4 w-4 mr-2" />
               Export
             </button>
           </div>
         </div>
 
+        {/* Employee Table */}
         <div className="overflow-x-auto bg-white rounded shadow">
           <table className="min-w-full table-auto">
             <thead className="bg-white text-left">
@@ -79,31 +164,39 @@ const Employees = () => {
               </tr>
             </thead>
             <tbody>
-              {employees.map((emp, idx) => (
-                <tr key={idx} className="border-t hover:bg-gray-50">
-                  <td className="p-3 font-medium text-gray-800 cursor-pointer hover:underline">
-                    {emp.name}
-                  </td>
-                  <td className="p-3">{emp.email}</td>
-                  <td className="p-3">{emp.phone}</td>
-                  <td className="p-3">{emp.designation}</td>
-                  <td className="p-3">{emp.department}</td>
-                  <td className="p-3 flex gap-6">
-                    <button className="text-blue-600 hover:text-blue-800 cursor-pointer">
-                      <FaEdit className="text-gray-400 w-8" />
-                    </button>
-                    <button
-                      className="text-red-600 hover:text-red-800 cursor-pointer"
-                      onClick={() => handleDelete(emp)}
-                    >
-                      <FaTrash className="text-gray-400" />
-                    </button>
-                  </td>
-                </tr>
-              ))}
+              {employees
+                .filter((emp) =>
+                  emp.name.toLowerCase().includes(searchTerm.toLowerCase())
+                )
+                .map((emp, idx) => (
+                  <tr key={idx} className="border-t hover:bg-gray-50">
+                    <td className="p-3 font-medium text-gray-800 cursor-pointer hover:underline">
+                      {emp.name}
+                    </td>
+                    <td className="p-3">{emp.email}</td>
+                    <td className="p-3">{emp.phone}</td>
+                    <td className="p-3">{emp.designation}</td>
+                    <td className="p-3">{emp.department}</td>
+                    <td className="p-3 flex gap-6">
+                      <button
+                        className="text-blue-600 hover:text-blue-800 cursor-pointer"
+                        onClick={() => onEditEmployeeClick(emp)}
+                      >
+                        <Edit className="h-4 w-4 text-gray-500" />
+                      </button>
+                      <button
+                        className="text-red-600 hover:text-red-800 cursor-pointer"
+                        onClick={() => handleDelete(emp)}
+                      >
+                        <Trash className="h-4 w-4" />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </table>
 
+          {/* Pagination */}
           <div className="flex justify-end p-4 text-sm space-x-2">
             <button className="px-2 text-gray-500">&lt;</button>
             {[1, 2, 3, 4, 5].map((n) => (
@@ -138,6 +231,46 @@ const Employees = () => {
                   Cancel
                 </button>
               </div>
+            </div>
+          </div>
+        )}
+
+        {/* Add Employee Form Modal */}
+        {isAddDialogOpen && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white rounded-lg shadow-lg w-full max-w-xl p-6 relative">
+              <AddEmployeeForm
+                onClose={() => setIsAddDialogOpen(false)}
+                onAdd={(newEmp) => {
+                  setEmployees([...employees, newEmp]);
+                  setIsAddDialogOpen(false);
+                }}
+              />
+            </div>
+          </div>
+        )}
+
+
+        {/* Edit Employee Form Modal */}
+        {isEditDialogOpen && selectedEmp && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white rounded-lg shadow-lg w-full max-w-xl p-6 relative">
+              <UpdateEmployeeForm
+                employee={selectedEmp}
+                onClose={() => {
+                  setIsEditDialogOpen(false);
+                  setSelectedEmp(null);
+                }}
+                onUpdate={(updatedEmp) => {
+                  setEmployees((prev) =>
+                    prev.map((emp) =>
+                      emp.email === updatedEmp.email ? updatedEmp : emp
+                    )
+                  );
+                  setIsEditDialogOpen(false);
+                  setSelectedEmp(null);
+                }}
+              />
             </div>
           </div>
         )}
