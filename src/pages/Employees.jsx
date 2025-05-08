@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import MainLayout from "../components/layout/MainLayout";
 import AddEmployeeForm from "../components/ui/AddEmployeeForm";
 import UpdateEmployeeForm from "../components/ui/UpdateEmployeeForm";
+import BulkUpload from "../components/ui/BulkUpload";
 import { Search, UserPlus, Edit, Trash, Filter, FileText } from "lucide-react";
 
 // Sample employee data
@@ -83,11 +84,10 @@ const Employees = () => {
   const [employees, setEmployees] = useState(employeesData);
   const [showConfirm, setShowConfirm] = useState(false);
   const [selectedEmp, setSelectedEmp] = useState(null);
-
+  const [showBulkUpload, setShowBulkUpload] = useState(false);
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
 
-  // Delete logic
   const handleDelete = (emp) => {
     setSelectedEmp(emp);
     setShowConfirm(true);
@@ -99,16 +99,18 @@ const Employees = () => {
     setSelectedEmp(null);
   };
 
-  // Show Add form
   const onAddEmployeeClick = () => {
     setIsAddDialogOpen(true);
   };
 
-  // Show Edit form with selected employee
   const onEditEmployeeClick = (emp) => {
     setSelectedEmp(emp);
     setIsEditDialogOpen(true);
   };
+
+  const filteredEmployees = employees.filter((emp) =>
+    (emp.name ?? "").toLowerCase().includes(searchTerm.toLowerCase())
+  );  
 
   return (
     <MainLayout>
@@ -116,19 +118,28 @@ const Employees = () => {
         {/* Header */}
         <div className="flex justify-between items-center mb-4">
           <h1 className="text-2xl font-bold">Employee Management</h1>
-          <button
-            onClick={onAddEmployeeClick}
-            className="flex items-center gap-2 bg-purple-600 text-white px-4 py-2 rounded shadow hover:bg-purple-700"
-          >
-            <UserPlus className="h-4 w-4" />
-            <span>Add New Employee</span>
-          </button>
+          <div className="flex gap-3">
+            <button
+              onClick={onAddEmployeeClick}
+              className="flex items-center gap-2 bg-purple-600 text-white px-4 py-2 rounded shadow hover:bg-purple-700"
+            >
+              <UserPlus className="h-4 w-4" />
+              <span>Add New Employee</span>
+            </button>
+            <button
+              onClick={() => setShowBulkUpload(true)}
+              className="flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded shadow hover:bg-green-700"
+            >
+              <FileText className="h-4 w-4" />
+              <span>Bulk Upload</span>
+            </button>
+          </div>
         </div>
 
         {/* Search and Filter */}
         <div className="flex items-center justify-between gap-4 p-4">
           <div className="relative w-96">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
             <input
               type="text"
               placeholder="Search employees..."
@@ -137,14 +148,13 @@ const Employees = () => {
               className="w-80 pl-10 pr-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500"
             />
           </div>
-
           <div className="flex gap-2">
             <button className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-100">
-            <Filter className="h-4 w-4 mr-2" />
+              <Filter className="h-4 w-4 mr-2" />
               Filter
             </button>
             <button className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-100">
-            <FileText className="h-4 w-4 mr-2" />
+              <FileText className="h-4 w-4 mr-2" />
               Export
             </button>
           </div>
@@ -164,35 +174,37 @@ const Employees = () => {
               </tr>
             </thead>
             <tbody>
-              {employees
-                .filter((emp) =>
-                  emp.name.toLowerCase().includes(searchTerm.toLowerCase())
-                )
-                .map((emp, idx) => (
+              {filteredEmployees.length === 0 ? (
+                <tr>
+                  <td colSpan="6" className="text-center py-6 text-gray-400">
+                    No employees found.
+                  </td>
+                </tr>
+              ) : (
+                filteredEmployees.map((emp, idx) => (
                   <tr key={idx} className="border-t hover:bg-gray-50">
-                    <td className="p-3 font-medium text-gray-800 cursor-pointer hover:underline">
-                      {emp.name}
-                    </td>
+                    <td className="p-3 font-medium text-gray-800">{emp.name}</td>
                     <td className="p-3">{emp.email}</td>
                     <td className="p-3">{emp.phone}</td>
                     <td className="p-3">{emp.designation}</td>
                     <td className="p-3">{emp.department}</td>
                     <td className="p-3 flex gap-6">
                       <button
-                        className="text-blue-600 hover:text-blue-800 cursor-pointer"
+                        className="text-blue-600 hover:text-blue-800"
                         onClick={() => onEditEmployeeClick(emp)}
                       >
-                        <Edit className="h-4 w-4 text-gray-500" />
+                        <Edit className="h-4 w-4" />
                       </button>
                       <button
-                        className="text-red-600 hover:text-red-800 cursor-pointer"
+                        className="text-red-600 hover:text-red-800"
                         onClick={() => handleDelete(emp)}
                       >
                         <Trash className="h-4 w-4" />
                       </button>
                     </td>
                   </tr>
-                ))}
+                ))
+              )}
             </tbody>
           </table>
 
@@ -214,8 +226,7 @@ const Employees = () => {
             <div className="bg-white p-6 rounded-xl shadow-xl w-96 text-center">
               <h2 className="text-lg font-semibold mb-4">Delete Employee</h2>
               <p className="text-sm text-gray-700 mb-6">
-                Are you sure you want to delete{" "}
-                <strong>{selectedEmp?.name}</strong>?
+                Are you sure you want to delete <strong>{selectedEmp?.name}</strong>?
               </p>
               <div className="flex justify-center space-x-4">
                 <button
@@ -235,7 +246,7 @@ const Employees = () => {
           </div>
         )}
 
-        {/* Add Employee Form Modal */}
+        {/* Add Employee Modal */}
         {isAddDialogOpen && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-white rounded-lg shadow-lg w-full max-w-xl p-6 relative">
@@ -250,8 +261,7 @@ const Employees = () => {
           </div>
         )}
 
-
-        {/* Edit Employee Form Modal */}
+        {/* Edit Employee Modal */}
         {isEditDialogOpen && selectedEmp && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-white rounded-lg shadow-lg w-full max-w-xl p-6 relative">
@@ -271,6 +281,28 @@ const Employees = () => {
                   setSelectedEmp(null);
                 }}
               />
+            </div>
+          </div>
+        )}
+
+        {/* Bulk Upload Modal */}
+        {showBulkUpload && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white rounded-lg shadow-lg w-full max-w-xl p-6 relative">
+              <BulkUpload
+                onUpload={(bulkEmployees) => {
+                  if (bulkEmployees && bulkEmployees.length > 0) {
+                    setEmployees([...employees, ...bulkEmployees]);
+                  }
+                  setShowBulkUpload(false);
+                }}
+              />
+              <button
+                onClick={() => setShowBulkUpload(false)}
+                className="absolute top-2 right-3 text-gray-500 hover:text-gray-700 text-xl font-bold"
+              >
+                ×
+              </button>
             </div>
           </div>
         )}

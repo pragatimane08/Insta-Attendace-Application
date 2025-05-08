@@ -48,3 +48,4 @@ export const apiUrl = {
     downloadPayslip: (id) => `/payroll/${id}/download`,
   },
 };
+
