@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { Input } from "./input";
 
 const UpdateEmployeeForm = ({ onClose }) => {
@@ -16,44 +16,56 @@ const UpdateEmployeeForm = ({ onClose }) => {
   const [errors, setErrors] = useState({});
 
   const validate = () => {
+    const { name, email, phone, department, status, geofencing, designation, password } = formData;
     const newErrors = {};
 
-    if (!formData.name.trim()) newErrors.name = "Name is required";
-
-    if (!formData.email.trim()) {
+    if (!name.trim()) newErrors.name = "Name is required";
+    if (!email.trim()) {
       newErrors.email = "Email is required";
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       newErrors.email = "Invalid email format";
     }
 
-    if (!formData.phone.trim()) {
+    if (!phone.trim()) {
       newErrors.phone = "Phone number is required";
-    } else if (!/^\d{10}$/.test(formData.phone)) {
-      newErrors.phone = "Phone number must be 10 digits";
+    } else if (!/^\d{10}$/.test(phone)) {
+      newErrors.phone = "Phone number must be exactly 10 digits";
     }
 
-    if (!formData.department.trim()) newErrors.department = "Department is required";
-    if (!formData.status) newErrors.status = "Enrollment status is required";
-    if (!formData.geofencing) newErrors.geofencing = "Geofencing is required";
-    if (!formData.designation.trim()) newErrors.designation = "Designation is required";
-    if (!formData.password) newErrors.password = "Password is required";
+    if (!department.trim()) newErrors.department = "Department is required";
+    if (!status) newErrors.status = "Enrollment status is required";
+    if (!geofencing) newErrors.geofencing = "Geofencing is required";
+    if (!designation.trim()) newErrors.designation = "Designation is required";
+
+    if (!password) {
+      newErrors.password = "Password is required";
+    } else if (
+      !/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/.test(password)
+    ) {
+      newErrors.password =
+        "Password must be at least 8 characters and include 1 letter, 1 number, and 1 special character";
+    }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-    setErrors({ ...errors, [e.target.name]: "" });
-  };
+  const handleChange = useCallback((e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    setErrors((prev) => ({ ...prev, [name]: "" }));
+  }, []);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (validate()) {
-      console.log("Form submitted:", formData);
-      onClose();
-    }
-  };
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      if (validate()) {
+        console.log("Form submitted:", formData);
+        onClose();
+      }
+    },
+    [formData, onClose]
+  );
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-30 z-50">
@@ -70,10 +82,9 @@ const UpdateEmployeeForm = ({ onClose }) => {
           </button>
         </div>
 
-        {/* Form Scrollable Content */}
+        {/* Form Content */}
         <div className="p-6 overflow-y-auto">
           <form className="space-y-5 text-base" onSubmit={handleSubmit}>
-            {/* Employee Name */}
             <FormInput
               label="Employee Name"
               name="name"
@@ -83,7 +94,6 @@ const UpdateEmployeeForm = ({ onClose }) => {
               placeholder="Full Name"
             />
 
-            {/* Email */}
             <FormInput
               label="Email"
               name="email"
@@ -94,7 +104,6 @@ const UpdateEmployeeForm = ({ onClose }) => {
               placeholder="Email Address"
             />
 
-            {/* Phone Number */}
             <FormInput
               label="Phone Number"
               name="phone"
@@ -105,7 +114,6 @@ const UpdateEmployeeForm = ({ onClose }) => {
               placeholder="Phone Number"
             />
 
-            {/* Department */}
             <FormInput
               label="Department"
               name="department"
@@ -115,7 +123,6 @@ const UpdateEmployeeForm = ({ onClose }) => {
               placeholder="Department"
             />
 
-            {/* Enrollment Status */}
             <FormSelect
               label="Enrollment Status"
               name="status"
@@ -126,7 +133,6 @@ const UpdateEmployeeForm = ({ onClose }) => {
               placeholder="Select status"
             />
 
-            {/* Geofencing */}
             <FormSelect
               label="Geofencing"
               name="geofencing"
@@ -137,7 +143,6 @@ const UpdateEmployeeForm = ({ onClose }) => {
               placeholder="Select geofencing"
             />
 
-            {/* Designation */}
             <FormInput
               label="Designation/Role"
               name="designation"
@@ -147,7 +152,6 @@ const UpdateEmployeeForm = ({ onClose }) => {
               placeholder="Job Title"
             />
 
-            {/* Password */}
             <FormInput
               label="Password"
               name="password"
@@ -158,7 +162,6 @@ const UpdateEmployeeForm = ({ onClose }) => {
               placeholder="Password"
             />
 
-            {/* Buttons */}
             <div className="flex justify-end gap-3 pt-4">
               <button
                 type="button"
@@ -181,7 +184,7 @@ const UpdateEmployeeForm = ({ onClose }) => {
   );
 };
 
-// Reusable input component
+// Reusable Input Field
 const FormInput = ({ label, name, type = "text", value, onChange, error, placeholder }) => (
   <div>
     <label className="block text-sm font-medium mb-1">{label}</label>
@@ -191,14 +194,25 @@ const FormInput = ({ label, name, type = "text", value, onChange, error, placeho
       value={value}
       onChange={onChange}
       placeholder={placeholder}
-      className={error ? "border-red-500 focus-visible:ring-red-500" : ""}
+      className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 ${
+        error ? "border-red-500 focus:ring-red-500" : "focus:ring-purple-500"
+      }`}
     />
     {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
   </div>
 );
 
-// Reusable select component
-const FormSelect = ({ label, name, value, onChange, error, options, placeholder }) => (
+// Reusable Select Field
+const FormSelect = ({
+  label,
+  name,
+  value,
+  onChange,
+  error,
+  options,
+  placeholder,
+  type = "text",
+}) => (
   <div>
     <label className="block text-sm font-medium mb-1">{label}</label>
     <select

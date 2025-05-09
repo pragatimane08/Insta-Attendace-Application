@@ -3,7 +3,8 @@ import PageTile from './PageTile';
 import { StatCard } from './StatCard';
 import { FaUser, FaClock, FaCalendarAlt } from "react-icons/fa";
 import { Toaster } from "./ui/Toaster";
-
+import BarChart from './ui/barchart'; 
+import LineChart  from './ui/linechart';
 const stats = [
   {
     title: "Total Employees",
@@ -35,19 +36,20 @@ const stats = [
   },
 ];
 
-//  Destructure children from props
 const Dashboardcard = ({ children }) => {
   const tile = {
     name: "Dashboard",
     description: "Welcome back, Akshay",
   };
-  // toast.success("Test toast");
+
   return (
     <div className="p-6">
       <PageTile tile={tile} />
       <StatCard data={stats} />
-      {children} {/* Now children is defined */}
-      <Toaster/>
+      {children}
+      <Toaster />
+      <BarChart /> {/* Your chart component */}
+      <LineChart/>
     </div>
   );
 };

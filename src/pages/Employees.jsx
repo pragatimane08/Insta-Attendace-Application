@@ -5,78 +5,17 @@ import UpdateEmployeeForm from "../components/ui/UpdateEmployeeForm";
 import BulkUpload from "../components/ui/BulkUpload";
 import { Search, UserPlus, Edit, Trash, Filter, FileText } from "lucide-react";
 
-// Sample employee data
 const employeesData = [
-  {
-    name: "Mustkeem Baraskar",
-    email: "mustkeem@gmail.com",
-    phone: "1234567890",
-    designation: "Software Developer",
-    department: "Corporate Office",
-  },
-  {
-    name: "Rohini Raut",
-    email: "rohini@gmail.com",
-    phone: "1234567890",
-    designation: "Software Developer",
-    department: "JIO",
-  },
-  {
-    name: "Pragati Mane",
-    email: "pragati@gmail.com",
-    phone: "1234567890",
-    designation: "Software Developer",
-    department: "Corporate Office",
-  },
-  {
-    name: "Shivanjali Bhosagi",
-    email: "shivanjali@gmail.com",
-    phone: "1234567890",
-    designation: "Software Developer",
-    department: "Corporate Office",
-  },
-  {
-    name: "Dilip Nandiwale",
-    email: "dilip@gmail.com",
-    phone: "1234567890",
-    designation: "Software Developer",
-    department: "VI Pune",
-  },
-  {
-    name: "Devayani Ghuge",
-    email: "devayani@gmail.com",
-    phone: "1234567890",
-    designation: "Software Developer",
-    department: "Maharashtra JIO",
-  },
-  {
-    name: "Niharika Sangolkar",
-    email: "niharika@gmail.com",
-    phone: "1234567890",
-    designation: "Software Developer",
-    department: "Punjab Circle",
-  },
-  {
-    name: "Sakshi Rajurkar",
-    email: "sakshi@gmail.com",
-    phone: "1234567890",
-    designation: "Software Developer",
-    department: "Airtel Bharti",
-  },
-  {
-    name: "Vaibhav Alone",
-    email: "vaibhav@gmail.com",
-    phone: "1234567890",
-    designation: "Software Developer",
-    department: "Ericsson JIO",
-  },
-  {
-    name: "Kajal Pawar",
-    email: "kajal@gmail.com",
-    phone: "1234567890",
-    designation: "Software Developer",
-    department: "Mumbai Airtel",
-  },
+  { name: "Mustkeem Baraskar", email: "mustkeem@gmail.com", phone: "1234567890", designation: "Software Developer", department: "Corporate Office" },
+  { name: "Rohini Raut", email: "rohini@gmail.com", phone: "1234567890", designation: "Software Developer", department: "JIO" },
+  { name: "Pragati Mane", email: "pragati@gmail.com", phone: "1234567890", designation: "Software Developer", department: "Corporate Office" },
+  { name: "Shivanjali Bhosagi", email: "shivanjali@gmail.com", phone: "1234567890", designation: "Software Developer", department: "Corporate Office" },
+  { name: "Dilip Nandiwale", email: "dilip@gmail.com", phone: "1234567890", designation: "Software Developer", department: "VI Pune" },
+  { name: "Devayani Ghuge", email: "devayani@gmail.com", phone: "1234567890", designation: "Software Developer", department: "Maharashtra JIO" },
+  { name: "Niharika Sangolkar", email: "niharika@gmail.com", phone: "1234567890", designation: "Software Developer", department: "Punjab Circle" },
+  { name: "Sakshi Rajurkar", email: "sakshi@gmail.com", phone: "1234567890", designation: "Software Developer", department: "Airtel Bharti" },
+  { name: "Vaibhav Alone", email: "vaibhav@gmail.com", phone: "1234567890", designation: "Software Developer", department: "Ericsson JIO" },
+  { name: "Kajal Pawar", email: "kajal@gmail.com", phone: "1234567890", designation: "Software Developer", department: "Mumbai Airtel" },
 ];
 
 const Employees = () => {
@@ -110,33 +49,23 @@ const Employees = () => {
 
   const filteredEmployees = employees.filter((emp) =>
     (emp.name ?? "").toLowerCase().includes(searchTerm.toLowerCase())
-  );  
+  );
 
   return (
     <MainLayout>
       <div className="min-h-screen bg-gray-50 p-6">
-        {/* Header */}
         <div className="flex justify-between items-center mb-4">
           <h1 className="text-2xl font-bold">Employee Management</h1>
           <div className="flex gap-3">
-            <button
-              onClick={onAddEmployeeClick}
-              className="flex items-center gap-2 bg-purple-600 text-white px-4 py-2 rounded shadow hover:bg-purple-700"
-            >
-              <UserPlus className="h-4 w-4" />
-              <span>Add New Employee</span>
+            <button onClick={onAddEmployeeClick} className="flex items-center gap-2 bg-purple-600 text-white px-4 py-2 rounded shadow hover:bg-purple-700">
+              <UserPlus className="h-4 w-4" /> <span>Add New Employee</span>
             </button>
-            <button
-              onClick={() => setShowBulkUpload(true)}
-              className="flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded shadow hover:bg-green-700"
-            >
-              <FileText className="h-4 w-4" />
-              <span>Bulk Upload</span>
+            <button onClick={() => setShowBulkUpload(true)} className="flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded shadow hover:bg-green-700">
+              <FileText className="h-4 w-4" /> <span>Bulk Upload</span>
             </button>
           </div>
         </div>
 
-        {/* Search and Filter */}
         <div className="flex items-center justify-between gap-4 p-4">
           <div className="relative w-96">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
@@ -150,17 +79,14 @@ const Employees = () => {
           </div>
           <div className="flex gap-2">
             <button className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-100">
-              <Filter className="h-4 w-4 mr-2" />
-              Filter
+              <Filter className="h-4 w-4 mr-2" /> Filter
             </button>
             <button className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-100">
-              <FileText className="h-4 w-4 mr-2" />
-              Export
+              <FileText className="h-4 w-4 mr-2" /> Export
             </button>
           </div>
         </div>
 
-        {/* Employee Table */}
         <div className="overflow-x-auto bg-white rounded shadow">
           <table className="min-w-full table-auto">
             <thead className="bg-white text-left">
@@ -176,9 +102,7 @@ const Employees = () => {
             <tbody>
               {filteredEmployees.length === 0 ? (
                 <tr>
-                  <td colSpan="6" className="text-center py-6 text-gray-400">
-                    No employees found.
-                  </td>
+                  <td colSpan="6" className="text-center py-6 text-gray-400">No employees found.</td>
                 </tr>
               ) : (
                 filteredEmployees.map((emp, idx) => (
@@ -189,16 +113,10 @@ const Employees = () => {
                     <td className="p-3">{emp.designation}</td>
                     <td className="p-3">{emp.department}</td>
                     <td className="p-3 flex gap-6">
-                      <button
-                        className="text-blue-600 hover:text-blue-800"
-                        onClick={() => onEditEmployeeClick(emp)}
-                      >
+                      <button className="text-blue-600 hover:text-blue-800" onClick={() => onEditEmployeeClick(emp)}>
                         <Edit className="h-4 w-4" />
                       </button>
-                      <button
-                        className="text-red-600 hover:text-red-800"
-                        onClick={() => handleDelete(emp)}
-                      >
+                      <button className="text-red-600 hover:text-red-800" onClick={() => handleDelete(emp)}>
                         <Trash className="h-4 w-4" />
                       </button>
                     </td>
@@ -208,101 +126,63 @@ const Employees = () => {
             </tbody>
           </table>
 
-          {/* Pagination */}
           <div className="flex justify-end p-4 text-sm space-x-2">
             <button className="px-2 text-gray-500">&lt;</button>
             {[1, 2, 3, 4, 5].map((n) => (
-              <button key={n} className="px-3 py-1 rounded hover:bg-gray-100">
-                {n}
-              </button>
+              <button key={n} className="px-3 py-1 rounded hover:bg-gray-100">{n}</button>
             ))}
             <button className="px-2 text-gray-500">&gt;</button>
           </div>
         </div>
 
-        {/* Delete Confirmation Modal */}
         {showConfirm && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-white p-6 rounded-xl shadow-xl w-96 text-center">
               <h2 className="text-lg font-semibold mb-4">Delete Employee</h2>
-              <p className="text-sm text-gray-700 mb-6">
-                Are you sure you want to delete <strong>{selectedEmp?.name}</strong>?
-              </p>
+              <p className="text-sm text-gray-700 mb-6">Are you sure you want to delete <strong>{selectedEmp?.name}</strong>?</p>
               <div className="flex justify-center space-x-4">
-                <button
-                  onClick={confirmDelete}
-                  className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
-                >
-                  Yes, Delete
-                </button>
-                <button
-                  onClick={() => setShowConfirm(false)}
-                  className="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400"
-                >
-                  Cancel
-                </button>
+                <button onClick={confirmDelete} className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">Yes, Delete</button>
+                <button onClick={() => setShowConfirm(false)} className="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400">Cancel</button>
               </div>
             </div>
           </div>
         )}
 
-        {/* Add Employee Modal */}
         {isAddDialogOpen && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-white rounded-lg shadow-lg w-full max-w-xl p-6 relative">
-              <AddEmployeeForm
-                onClose={() => setIsAddDialogOpen(false)}
-                onAdd={(newEmp) => {
-                  setEmployees([...employees, newEmp]);
-                  setIsAddDialogOpen(false);
-                }}
-              />
+              <AddEmployeeForm onClose={() => setIsAddDialogOpen(false)} onAdd={(newEmp) => {
+                setEmployees([...employees, newEmp]);
+                setIsAddDialogOpen(false);
+              }} />
             </div>
           </div>
         )}
 
-        {/* Edit Employee Modal */}
         {isEditDialogOpen && selectedEmp && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-white rounded-lg shadow-lg w-full max-w-xl p-6 relative">
-              <UpdateEmployeeForm
-                employee={selectedEmp}
-                onClose={() => {
-                  setIsEditDialogOpen(false);
-                  setSelectedEmp(null);
-                }}
-                onUpdate={(updatedEmp) => {
-                  setEmployees((prev) =>
-                    prev.map((emp) =>
-                      emp.email === updatedEmp.email ? updatedEmp : emp
-                    )
-                  );
-                  setIsEditDialogOpen(false);
-                  setSelectedEmp(null);
-                }}
-              />
+              <UpdateEmployeeForm employee={selectedEmp} onClose={() => {
+                setIsEditDialogOpen(false);
+                setSelectedEmp(null);
+              }} onUpdate={(updatedEmp) => {
+                setEmployees((prev) => prev.map((emp) => emp.email === updatedEmp.email ? updatedEmp : emp));
+                setIsEditDialogOpen(false);
+                setSelectedEmp(null);
+              }} />
             </div>
           </div>
         )}
 
-        {/* Bulk Upload Modal */}
         {showBulkUpload && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-white rounded-lg shadow-lg w-full max-w-xl p-6 relative">
-              <BulkUpload
-                onUpload={(bulkEmployees) => {
-                  if (bulkEmployees && bulkEmployees.length > 0) {
-                    setEmployees([...employees, ...bulkEmployees]);
-                  }
-                  setShowBulkUpload(false);
-                }}
-              />
-              <button
-                onClick={() => setShowBulkUpload(false)}
-                className="absolute top-2 right-3 text-gray-500 hover:text-gray-700 text-xl font-bold"
-              >
-                ×
-              </button>
+              <BulkUpload onUpload={(bulkEmployees) => {
+                if (bulkEmployees && bulkEmployees.length > 0) {
+                  setEmployees([...employees, ...bulkEmployees]);
+                }
+                setShowBulkUpload(false);
+              }} onClose={() => setShowBulkUpload(false)} />
             </div>
           </div>
         )}
